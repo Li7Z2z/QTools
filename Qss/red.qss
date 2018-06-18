@@ -529,6 +529,7 @@ QRadioButton::indicator:checked:pressed {
 
 /********** ‰»ÎøÚ**********/
 QLineEdit {
+		font-size: 16px;
         border-radius: 4px;
         height: 25px;
         border: 1px solid rgb(111, 156, 207);
