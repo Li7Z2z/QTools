@@ -9,7 +9,7 @@ TitleBar::TitleBar(QWidget *parent)
     : QWidget(parent)
 {
     // 标题栏高度
-    setFixedHeight(34);
+    setFixedHeight(32);
 
     m_pWindow = this->window();
     m_pIconLabel = new QLabel(this);
@@ -237,6 +237,7 @@ void TitleBar::on_activatedSysTrayIcon(QSystemTrayIcon::ActivationReason reason)
         // 双击托盘图标
         // 双击后显示主程序窗口
         m_pWindow->move(pos);
+        m_pWindow->hide();
         m_pWindow->show();
         break;
     case QSystemTrayIcon::Context:
@@ -255,23 +256,24 @@ void TitleBar::createTrayMenu()
     m_pTrayMenu = new QMenu(this);
     m_pTrayMenu->addAction(QString("显示"));
     m_pTrayMenu->addAction(QString("设置"));
-    m_pTrayMenu->addAction(QString("q"));
+    m_pTrayMenu->addAction(QString("Exit"));
 }
 
 // 处理托盘图标菜单点击事件
 void TitleBar::on_trayAction(QAction *action)
 {
-    if (action->text() == "显示" && m_pWindow->isHidden())
+    if (action->text() == "显示")
     {
         m_pWindow->move(pos);
+        m_pWindow->hide();
         m_pWindow->show();
     }
     if (action->text() == "设置")
     {
 
     }
-    if (action->text() == "q")
+    if (action->text() == "Exit")
     {
-
+        qApp->quit();
     }
 }

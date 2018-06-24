@@ -21,7 +21,6 @@ class TitleBar : public QWidget
     Q_OBJECT
 
 public:
-
     explicit TitleBar(QWidget *parent = 0);
     ~TitleBar();
 

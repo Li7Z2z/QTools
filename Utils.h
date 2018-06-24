@@ -4,9 +4,12 @@
 #include "FontIcons.h"
 #include <QNetworkInterface>
 #include <QSystemTrayIcon>
+#include <QListWidgetItem>
 #include <QApplication>
 #include <QPushButton>
+#include <QListWidget>
 #include <QDateTime>
+#include <QLayout>
 #include <QWidget>
 #include <QDebug>
 #include <QTimer>

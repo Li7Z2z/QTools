@@ -7,8 +7,11 @@
     <x>0</x>
     <y>0</y>
     <width>300</width>
-    <height>600</height>
+    <height>700</height>
    </rect>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
   </property>
   <widget class="QLabel" name="lbl_time">
    <property name="geometry">
@@ -61,6 +64,35 @@
    <property name="flat">
     <bool>true</bool>
    </property>
+  </widget>
+  <widget class="QToolBox" name="toolBox">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>110</y>
+     <width>275</width>
+     <height>570</height>
+    </rect>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
+   </property>
+   <property name="tabSpacing">
+    <number>1</number>
+   </property>
+   <widget class="QWidget" name="">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>275</width>
+      <height>549</height>
+     </rect>
+    </property>
+    <attribute name="label">
+     <string/>
+    </attribute>
+   </widget>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>

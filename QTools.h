@@ -21,14 +21,25 @@ public:
     ~QTools();
 private slots:
     // 1秒定时器，刷新时间
-    void on_timer();
+    void on_timeTimer();
 
 private:
     // 初始化
     void init();
+    // 初始化ToolBox
+    void initToolBox();
 
 private:
     Ui::QTools *ui;
+
+    QTimer *m_pTimeTimer;               // 刷新时间定时器
+
+    QListWidget     *m_pListWidget;     // ListWidget
+    QListWidgetItem *m_pListWidgeItem;  // ListWidgetItem
+
+    QStringList m_softType;             // 软件类型
+    QString m_softName[10][20];         // 软件名称
+
 };
 
 #endif // QTOOLS_H
