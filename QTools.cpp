@@ -14,16 +14,16 @@ QTools::~QTools()
     delete ui;
 }
 
-// åˆå§‹åŒ–
+// ³õÊ¼»¯
 void QTools::init()
 {
-    //éšè—çª—å£çš„æ ‡é¢˜æ 
+    //Òş²Ø´°¿ÚµÄ±êÌâÀ¸
     setWindowFlags(Qt::Tool | Qt::FramelessWindowHint | windowFlags());
 
     TitleBar *pTitleBar = new TitleBar(this);
     installEventFilter(pTitleBar);
 
-    setWindowTitle(QString("å¤šåŠŸèƒ½å·¥å…·ç®±"));
+    setWindowTitle(QString("¶à¹¦ÄÜ¹¤¾ßÏä"));
     setWindowIcon(QIcon(":/Icon/iconfont_48.png"));
 
 //    QPalette pal(palette());
@@ -38,73 +38,112 @@ void QTools::init()
     pLayout->setContentsMargins(0, 0, 0, 0);
     setLayout(pLayout);
 
-    /******************** å®šæ—¶å™¨ ********************/
+    /******************** ¶¨Ê±Æ÷ ********************/
     m_pTimeTimer = new QTimer(this);
     connect(m_pTimeTimer,SIGNAL(timeout()),this,SLOT(on_timeTimer()));
     m_pTimeTimer->start(1000);
 
-    /******************** åˆå§‹åŒ–UI ********************/
-    // åˆå§‹åŒ–ToolBox
+    /******************** ³õÊ¼»¯UI ********************/
+    // ³õÊ¼»¯ToolBox
     initToolBox();
-    // è·å–æ—¶é—´
+    // »ñÈ¡Ê±¼ä
     ui->lbl_time->setText(Utils::getTime());
-    // è·å–IPåœ°å€
+    // »ñÈ¡IPµØÖ·
     ui->lbl_ip->setText(QString("IP:")+Utils::getHostIpAddress());
-    // è®¾ç½®æœç´¢æŒ‰é’®å›¾æ ‡
+    // ÉèÖÃËÑË÷°´Å¥Í¼±ê
     Utils::setIcon(ui->btn_search, FontIcons::IconCode::icon_search, 14);
 
 }
 
-// åˆå§‹åŒ–ToolBox
+// ³õÊ¼»¯ToolBox
 void QTools::initToolBox()
 {
     ui->toolBox->removeItem(0);
-    m_softType.append("æ–‡æœ¬å¤„ç†");
+    // Èí¼ş·ÖÀà
+    m_softType[0] = "ÎÄ±¾´¦Àí";
+    m_softType[1] = "Í¼Ïñ´¦Àí";
+    m_softType[2] = "Ñ¹Ëõ¼ÓÑ¹";
+    m_softType[3] = "¼ÓÃÜ½âÃÜ";
+    m_softType[4] = "ÍøÂç¹¤¾ß";
+    m_softType[5] = "É¨Ãè¹¤¾ß";
+    m_softType[6] = "°²È«¹¤¾ß";
+    m_softType[7] = "ÏÂÔØ¹¤¾ß";
+    m_softType[8] = "·ÖÎö¹¤¾ß";
+    m_softType[9] = "¸öĞÔ¹¤¾ß";
+    // Èí¼şÃû³Æ
     m_softName[0][0] = "Notepad++";
     m_softName[0][1] = "SublimeText";
-    m_softType.append("å›¾åƒå¤„ç†");
-    m_softType.append("å‹ç¼©åŠ å‹");
-    m_softType.append("åŠ å¯†è§£å¯†");
-    m_softType.append("ç½‘ç»œå·¥å…·");
-    m_softType.append("æ‰«æå·¥å…·");
-    m_softType.append("å®‰å…¨å·¥å…·");
-    m_softType.append("ä¸‹è½½å·¥å…·");
-    m_softType.append("åˆ†æå·¥å…·");
+    // Èí¼şÂ·¾¶
+    m_softPath[0][0] = "Notepad++.exe";
+    m_softPath[0][1] = "SublimeText.exe";
+    // Èí¼şÍ¼±ê
+    m_softIcon[0][0] = "iconfont_48.png";
+    m_softIcon[0][1] = "iconfont_48.png";
 
-    for (int i = 0; i < m_softType.size(); i++)
+    for (int i = 0; i < sizeof(m_softType)/sizeof(QString); i++)
     {
-        // å®šä¹‰ListWidget
+        // ´´½¨Èí¼şÀàĞÍÎÄ¼ş¼Ğ
+        QString dirPath = "./" + m_softType[i];
+        QDir dir;
+        // ÅĞ¶ÏÎÄ¼ş¼ĞÊÇ·ñ´æÔÚ
+        if (!dir.exists(dirPath))
+        {
+            // ²»´æÔÚ´´½¨ÎÄ¼ş¼Ğ
+            dir.mkdir(dirPath);
+        }
+        // ¶¨ÒåListWidget
         m_pListWidget = new QListWidget();
-        //m_pListWidget->addItems(m_softName[i]);
-        // ä½¿ç”¨QListViewæ˜¾ç¤ºå›¾æ ‡
+        // Á¬½ÓĞÅºÅºÍ²Û
+        connect(m_pListWidget, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(on_itemClicked(QListWidgetItem*)));
+        // Ê¹ÓÃQListViewÏÔÊ¾Í¼±ê
         m_pListWidget->setViewMode(QListView::IconMode);
-        // æ·»åŠ è½¯ä»¶åç§°åŠè®¾ç½®å›¾æ ‡
-        for (int j = 0; j < sizeof(m_softName[i])/sizeof(m_softName[i][0]); j++)
+        // Ìí¼ÓÈí¼şÃû³Æ¼°ÉèÖÃÍ¼±ê
+        for (int j = 0; j < sizeof(m_softName[0])/sizeof(m_softName[0][0]); j++)
         {
             if (m_softName[i][j].size() <= 0)
                 break;
             m_pListWidgeItem = new QListWidgetItem();
-            m_pListWidgeItem->setIcon(QIcon(":/Icon/iconfont_48.png"));
+            m_pListWidgeItem->setIcon(QIcon(":/Icon/"+m_softIcon[i][j]));
             m_pListWidgeItem->setText(m_softName[i][j]);
             m_pListWidget->addItem(m_pListWidgeItem);
         }
-        // è®¾ç½®å›¾æ ‡çš„å¤§å°
+        // ÉèÖÃÍ¼±êµÄ´óĞ¡
         m_pListWidget->setIconSize(QSize(48, 48));
-        // è®¾ç½®ç½‘æ ¼çš„å¤§å°
+        // ÉèÖÃÍø¸ñµÄ´óĞ¡
         m_pListWidget->setGridSize(QSize(80, 80));
-        // è®¾ç½®QListViewå¤§å°æ”¹å˜æ—¶ï¼Œå›¾æ ‡çš„è°ƒæ•´æ¨¡å¼ï¼Œè‡ªåŠ¨è°ƒæ•´
+        // ÉèÖÃQListView´óĞ¡¸Ä±äÊ±£¬Í¼±êµÄµ÷ÕûÄ£Ê½£¬×Ô¶¯µ÷Õû
         m_pListWidget->setResizeMode(QListView::Adjust);
-        // è®¾ç½®å›¾æ ‡å¯ä¸å¯ä»¥ç§»åŠ¨ï¼Œé»˜è®¤æ˜¯å¯ç§»åŠ¨çš„ï¼Œæ”¹æˆé™æ€çš„
+        // ÉèÖÃÍ¼±ê¿É²»¿ÉÒÔÒÆ¶¯£¬Ä¬ÈÏÊÇ¿ÉÒÆ¶¯µÄ£¬¸Ä³É¾²Ì¬µÄ
         m_pListWidget->setMovement(QListView::Static);
-        // toolBoxé‡Œæ·»åŠ ListWidget
-        ui->toolBox->addItem(m_pListWidget, m_softType.at(i));
+        // toolBoxÀïÌí¼ÓListWidget
+        ui->toolBox->addItem(m_pListWidget, m_softType[i]);
     }
 
 }
 
-// 1ç§’å®šæ—¶å™¨ï¼Œåˆ·æ–°æ—¶é—´
+// 1Ãë¶¨Ê±Æ÷£¬Ë¢ĞÂÊ±¼ä
 void QTools::on_timeTimer()
 {
-    // è·å–æ—¶é—´
+    // »ñÈ¡Ê±¼ä
     ui->lbl_time->setText(Utils::getTime());
+}
+
+// QListWidgetµã»÷ÊÂ¼ş
+void QTools::on_itemClicked(QListWidgetItem* item)
+{
+    QString name = item->text();
+    for (int i = 0; i < 10; i++)
+    {
+        for (int j = 0; j < 20; j++)
+        {
+            if (m_softName[i][j].size() <= 0)
+                break;
+            if (m_softName[i][j] == name)
+            {
+                qDebug() << m_softName[i][j];
+                qDebug() << m_softPath[i][j];
+                return;
+            }
+        }
+    }
 }

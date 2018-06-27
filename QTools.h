@@ -2,7 +2,7 @@
 #define QTOOLS_H
 
 // 正常显示中文
-
+#pragma execution_character_set("utf-8")
 
 #include "Utils.h"
 #include "TitleBar.h"
@@ -19,9 +19,12 @@ class QTools : public QDialog
 public:
     explicit QTools(QWidget *parent = 0);
     ~QTools();
-private slots:
+
+public slots:
     // 1秒定时器，刷新时间
     void on_timeTimer();
+    // QListWidget点击事件
+    void on_itemClicked(QListWidgetItem* item);
 
 private:
     // 初始化
@@ -37,8 +40,10 @@ private:
     QListWidget     *m_pListWidget;     // ListWidget
     QListWidgetItem *m_pListWidgeItem;  // ListWidgetItem
 
-    QStringList m_softType;             // 软件类型
+    QString m_softType[10];             // 软件类型
     QString m_softName[10][20];         // 软件名称
+    QString m_softPath[10][20];         // 软件路径
+    QString m_softIcon[10][20];         // 软件图标
 
 };
 
