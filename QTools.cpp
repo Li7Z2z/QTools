@@ -71,14 +71,44 @@ void QTools::initToolBox()
     m_softType[8] = "分析工具";
     m_softType[9] = "个性工具";
     // 软件名称
-    m_softName[0][0] = "Notepad++";
-    m_softName[0][1] = "SublimeText";
+    m_softName[0].append("Notepad++");
+    m_softName[0].append("QTools");
+    m_softName[0].append("Notepad++");
+    m_softName[0].append("QTools");
+    m_softName[0].append("Notepad++");
+    m_softName[0].append("QTools");
+    m_softName[0].append("Notepad++");
+    m_softName[0].append("QTools");
+    m_softName[0].append("Notepad++");
+    m_softName[0].append("QTools");
+    m_softName[0].append("Notepad++");
+    m_softName[0].append("QTools");
     // 软件路径
-    m_softPath[0][0] = "Notepad++.exe";
-    m_softPath[0][1] = "SublimeText.exe";
+    m_softPath[0].append("Notepad++.exe");
+    m_softPath[0].append("QTools.exe");
+    m_softPath[0].append("Notepad++.exe");
+    m_softPath[0].append("QTools.exe");
+    m_softPath[0].append("Notepad++.exe");
+    m_softPath[0].append("QTools.exe");
+    m_softPath[0].append("Notepad++.exe");
+    m_softPath[0].append("QTools.exe");
+    m_softPath[0].append("Notepad++.exe");
+    m_softPath[0].append("QTools.exe");
+    m_softPath[0].append("Notepad++.exe");
+    m_softPath[0].append("QTools.exe");
     // 软件图标
-    m_softIcon[0][0] = "iconfont_48.png";
-    m_softIcon[0][1] = "iconfont_48.png";
+    m_softIcon[0].append("iconfont_48.png");
+    m_softIcon[0].append("iconfont_48.png");
+    m_softIcon[0].append("iconfont_48.png");
+    m_softIcon[0].append("iconfont_48.png");
+    m_softIcon[0].append("iconfont_48.png");
+    m_softIcon[0].append("iconfont_48.png");
+    m_softIcon[0].append("iconfont_48.png");
+    m_softIcon[0].append("iconfont_48.png");
+    m_softIcon[0].append("iconfont_48.png");
+    m_softIcon[0].append("iconfont_48.png");
+    m_softIcon[0].append("iconfont_48.png");
+    m_softIcon[0].append("iconfont_48.png");
 
     for (int i = 0; i < sizeof(m_softType)/sizeof(QString); i++)
     {
@@ -98,13 +128,11 @@ void QTools::initToolBox()
         // 使用QListView显示图标
         m_pListWidget->setViewMode(QListView::IconMode);
         // 添加软件名称及设置图标
-        for (int j = 0; j < sizeof(m_softName[0])/sizeof(m_softName[0][0]); j++)
+        for (int j = 0; j < m_softName[i].size(); j++)
         {
-            if (m_softName[i][j].size() <= 0)
-                break;
             m_pListWidgeItem = new QListWidgetItem();
-            m_pListWidgeItem->setIcon(QIcon(":/Icon/"+m_softIcon[i][j]));
-            m_pListWidgeItem->setText(m_softName[i][j]);
+            m_pListWidgeItem->setIcon(QIcon(":/Icon/"+m_softIcon[i].at(j)));
+            m_pListWidgeItem->setText(m_softName[i].at(j));
             m_pListWidget->addItem(m_pListWidgeItem);
         }
         // 设置图标的大小
@@ -118,7 +146,6 @@ void QTools::initToolBox()
         // toolBox里添加ListWidget
         ui->toolBox->addItem(m_pListWidget, m_softType[i]);
     }
-
 }
 
 // 1秒定时器，刷新时间
@@ -132,16 +159,18 @@ void QTools::on_timeTimer()
 void QTools::on_itemClicked(QListWidgetItem* item)
 {
     QString name = item->text();
-    for (int i = 0; i < 10; i++)
+    for (int i = 0; i < sizeof(m_softType)/sizeof(QString); i++)
     {
-        for (int j = 0; j < 20; j++)
+        for (int j = 0; j < m_softPath[i].size(); j++)
         {
-            if (m_softName[i][j].size() <= 0)
-                break;
-            if (m_softName[i][j] == name)
+            if (m_softName[i].at(j) == name)
             {
-                qDebug() << m_softName[i][j];
-                qDebug() << m_softPath[i][j];
+                qDebug() << m_softName[i].at(j);
+                qDebug() << m_softPath[i].at(j);
+                // 启动对应的软件
+                QString path = QString("./%1/%2").arg(m_softType[i], m_softPath[i].at(j));
+                QProcess process;
+                process.startDetached(path);
                 return;
             }
         }

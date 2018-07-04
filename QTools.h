@@ -41,9 +41,9 @@ private:
     QListWidgetItem *m_pListWidgeItem;  // ListWidgetItem
 
     QString m_softType[10];             // 软件类型
-    QString m_softName[10][20];         // 软件名称
-    QString m_softPath[10][20];         // 软件路径
-    QString m_softIcon[10][20];         // 软件图标
+    QStringList m_softName[10];         // 软件名称
+    QStringList m_softPath[10];         // 软件路径
+    QStringList m_softIcon[10];         // 软件图标
 
 };
 

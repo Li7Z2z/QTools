@@ -17,6 +17,7 @@
 #include <QFont>
 #include <QFile>
 #include <QDir>
+#include <QProcess>
 
 class Utils : public QWidget
 {
