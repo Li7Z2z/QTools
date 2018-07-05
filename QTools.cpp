@@ -60,9 +60,9 @@ void QTools::initToolBox()
 {
     ui->toolBox->removeItem(0);
     // 软件分类
-    m_softType[0] = "文本处理";
+    m_softType[0] = "文本编辑";
     m_softType[1] = "图像处理";
-    m_softType[2] = "压缩加压";
+    m_softType[2] = "压缩解压";
     m_softType[3] = "加密解密";
     m_softType[4] = "网络工具";
     m_softType[5] = "扫描工具";
