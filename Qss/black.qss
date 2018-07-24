@@ -984,7 +984,6 @@ QToolBoxButton {
 		min-height:24px;
 }
 QToolBox::tab {
-        padding-left: 117px;
         color: rgb(220, 220, 220);
         background-color: rgb(68, 68, 68);
 }

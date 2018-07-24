@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui network
+QT       += core gui network sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -30,13 +30,21 @@ SOURCES += \
         QTools.cpp \
     FontIcons.cpp \
     TitleBar.cpp \
-    Utils.cpp
+    Utils.cpp \
+    ConfigFile.cpp \
+    DbUtils.cpp \
+    ListWidget.cpp \
+    ToolBox.cpp
 
 HEADERS += \
         QTools.h \
     FontIcons.h \
     TitleBar.h \
-    Utils.h
+    Utils.h \
+    ConfigFile.h \
+    DbUtils.h \
+    ListWidget.h \
+    ToolBox.h
 
 FORMS += \
         QTools.ui
