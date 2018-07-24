@@ -1,4 +1,4 @@
-#include "QTools.h"
+ï»¿#include "QTools.h"
 #include "ui_QTools.h"
 
 QTools::QTools(QWidget *parent) :
@@ -14,22 +14,17 @@ QTools::~QTools()
     delete ui;
 }
 
-// ³õÊ¼»¯
+// åˆå§‹åŒ–
 void QTools::init()
 {
-    //Òş²Ø´°¿ÚµÄ±êÌâÀ¸
+    //éšè—çª—å£çš„æ ‡é¢˜æ 
     setWindowFlags(Qt::Tool | Qt::FramelessWindowHint | windowFlags());
 
     TitleBar *pTitleBar = new TitleBar(this);
     installEventFilter(pTitleBar);
 
-    setWindowTitle(QString("¶à¹¦ÄÜ¹¤¾ßÏä"));
+    setWindowTitle(QString("å¤šåŠŸèƒ½å·¥å…·ç®±"));
     setWindowIcon(QIcon(":/Icon/iconfont_48.png"));
-
-//    QPalette pal(palette());
-//    pal.setColor(QPalette::Background, QColor(0, 0, 0));
-//    setAutoFillBackground(true);
-//    setPalette(pal);
 
     QVBoxLayout *pLayout = new QVBoxLayout();
     pLayout->addWidget(pTitleBar);
@@ -38,141 +33,231 @@ void QTools::init()
     pLayout->setContentsMargins(0, 0, 0, 0);
     setLayout(pLayout);
 
-    /******************** ¶¨Ê±Æ÷ ********************/
+    /******************** åˆå§‹åŒ–æ•°æ® ********************/
+    DbUtils::openDb();
+    DbUtils::createSoftType();
+    DbUtils::createSoftInfo();
+
+    /******************** å®šæ—¶å™¨ ********************/
     m_pTimeTimer = new QTimer(this);
     connect(m_pTimeTimer,SIGNAL(timeout()),this,SLOT(on_timeTimer()));
     m_pTimeTimer->start(1000);
 
-    /******************** ³õÊ¼»¯UI ********************/
-    // ³õÊ¼»¯ToolBox
+    /******************** åˆå§‹åŒ–UI ********************/
+    // åˆå§‹åŒ–ToolBox
     initToolBox();
-    // »ñÈ¡Ê±¼ä
+    // æ³¨å†Œäº‹ä»¶è¿‡æ»¤å™¨
+    m_pToolBox->installEventFilter(this);
+    // è·å–æ—¶é—´
     ui->lbl_time->setText(Utils::getTime());
-    // »ñÈ¡IPµØÖ·
+    // è·å–IPåœ°å€
     ui->lbl_ip->setText(QString("IP:")+Utils::getHostIpAddress());
-    // ÉèÖÃËÑË÷°´Å¥Í¼±ê
+    // è®¾ç½®æœç´¢æŒ‰é’®å›¾æ ‡
     Utils::setIcon(ui->btn_search, FontIcons::IconCode::icon_search, 14);
-
 }
 
-// ³õÊ¼»¯ToolBox
-void QTools::initToolBox()
-{
-    ui->toolBox->removeItem(0);
-    // Èí¼ş·ÖÀà
-    m_softType[0] = "ÎÄ±¾±à¼­";
-    m_softType[1] = "Í¼Ïñ´¦Àí";
-    m_softType[2] = "Ñ¹Ëõ½âÑ¹";
-    m_softType[3] = "¼ÓÃÜ½âÃÜ";
-    m_softType[4] = "ÍøÂç¹¤¾ß";
-    m_softType[5] = "É¨Ãè¹¤¾ß";
-    m_softType[6] = "°²È«¹¤¾ß";
-    m_softType[7] = "ÏÂÔØ¹¤¾ß";
-    m_softType[8] = "·ÖÎö¹¤¾ß";
-    m_softType[9] = "¸öĞÔ¹¤¾ß";
-    // Èí¼şÃû³Æ
-    m_softName[0].append("Notepad++");
-    m_softName[0].append("QTools");
-    m_softName[0].append("Notepad++");
-    m_softName[0].append("QTools");
-    m_softName[0].append("Notepad++");
-    m_softName[0].append("QTools");
-    m_softName[0].append("Notepad++");
-    m_softName[0].append("QTools");
-    m_softName[0].append("Notepad++");
-    m_softName[0].append("QTools");
-    m_softName[0].append("Notepad++");
-    m_softName[0].append("QTools");
-    // Èí¼şÂ·¾¶
-    m_softPath[0].append("Notepad++.exe");
-    m_softPath[0].append("QTools.exe");
-    m_softPath[0].append("Notepad++.exe");
-    m_softPath[0].append("QTools.exe");
-    m_softPath[0].append("Notepad++.exe");
-    m_softPath[0].append("QTools.exe");
-    m_softPath[0].append("Notepad++.exe");
-    m_softPath[0].append("QTools.exe");
-    m_softPath[0].append("Notepad++.exe");
-    m_softPath[0].append("QTools.exe");
-    m_softPath[0].append("Notepad++.exe");
-    m_softPath[0].append("QTools.exe");
-    // Èí¼şÍ¼±ê
-    m_softIcon[0].append("iconfont_48.png");
-    m_softIcon[0].append("iconfont_48.png");
-    m_softIcon[0].append("iconfont_48.png");
-    m_softIcon[0].append("iconfont_48.png");
-    m_softIcon[0].append("iconfont_48.png");
-    m_softIcon[0].append("iconfont_48.png");
-    m_softIcon[0].append("iconfont_48.png");
-    m_softIcon[0].append("iconfont_48.png");
-    m_softIcon[0].append("iconfont_48.png");
-    m_softIcon[0].append("iconfont_48.png");
-    m_softIcon[0].append("iconfont_48.png");
-    m_softIcon[0].append("iconfont_48.png");
-
-    for (int i = 0; i < sizeof(m_softType)/sizeof(QString); i++)
-    {
-        // ´´½¨Èí¼şÀàĞÍÎÄ¼ş¼Ğ
-        QString dirPath = "./" + m_softType[i];
-        QDir dir;
-        // ÅĞ¶ÏÎÄ¼ş¼ĞÊÇ·ñ´æÔÚ
-        if (!dir.exists(dirPath))
-        {
-            // ²»´æÔÚ´´½¨ÎÄ¼ş¼Ğ
-            dir.mkdir(dirPath);
-        }
-        // ¶¨ÒåListWidget
-        m_pListWidget = new QListWidget();
-        // Á¬½ÓĞÅºÅºÍ²Û
-        connect(m_pListWidget, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(on_itemClicked(QListWidgetItem*)));
-        // Ê¹ÓÃQListViewÏÔÊ¾Í¼±ê
-        m_pListWidget->setViewMode(QListView::IconMode);
-        // Ìí¼ÓÈí¼şÃû³Æ¼°ÉèÖÃÍ¼±ê
-        for (int j = 0; j < m_softName[i].size(); j++)
-        {
-            m_pListWidgeItem = new QListWidgetItem();
-            m_pListWidgeItem->setIcon(QIcon(":/Icon/"+m_softIcon[i].at(j)));
-            m_pListWidgeItem->setText(m_softName[i].at(j));
-            m_pListWidget->addItem(m_pListWidgeItem);
-        }
-        // ÉèÖÃÍ¼±êµÄ´óĞ¡
-        m_pListWidget->setIconSize(QSize(48, 48));
-        // ÉèÖÃÍø¸ñµÄ´óĞ¡
-        m_pListWidget->setGridSize(QSize(80, 80));
-        // ÉèÖÃQListView´óĞ¡¸Ä±äÊ±£¬Í¼±êµÄµ÷ÕûÄ£Ê½£¬×Ô¶¯µ÷Õû
-        m_pListWidget->setResizeMode(QListView::Adjust);
-        // ÉèÖÃÍ¼±ê¿É²»¿ÉÒÔÒÆ¶¯£¬Ä¬ÈÏÊÇ¿ÉÒÆ¶¯µÄ£¬¸Ä³É¾²Ì¬µÄ
-        m_pListWidget->setMovement(QListView::Static);
-        // toolBoxÀïÌí¼ÓListWidget
-        ui->toolBox->addItem(m_pListWidget, m_softType[i]);
-    }
-}
-
-// 1Ãë¶¨Ê±Æ÷£¬Ë¢ĞÂÊ±¼ä
+// 1ç§’å®šæ—¶å™¨ï¼Œåˆ·æ–°æ—¶é—´
 void QTools::on_timeTimer()
 {
-    // »ñÈ¡Ê±¼ä
+    // è·å–æ—¶é—´
     ui->lbl_time->setText(Utils::getTime());
 }
 
-// QListWidgetµã»÷ÊÂ¼ş
+// åˆå§‹åŒ–ToolBox
+void QTools::initToolBox()
+{
+    m_pToolBox = new ToolBox(this);
+}
+
+// QListWidgetç‚¹å‡»äº‹ä»¶
 void QTools::on_itemClicked(QListWidgetItem* item)
 {
     QString name = item->text();
-    for (int i = 0; i < sizeof(m_softType)/sizeof(QString); i++)
+    for (int i = 0; i < m_lSoftTypeId.size(); i++)
     {
-        for (int j = 0; j < m_softPath[i].size(); j++)
+        m_lSoftName = DbUtils::getSoftName(m_lSoftTypeId.at(i).toInt());
+        m_lSoftPath = DbUtils::getSoftPath(m_lSoftTypeId.at(i).toInt());
+        m_lSoftIcon = DbUtils::getSoftIcon(m_lSoftTypeId.at(i).toInt());
+        for (int j = 0; j < m_lSoftName.size(); j++)
         {
-            if (m_softName[i].at(j) == name)
+            if (m_lSoftName.at(j) == name)
             {
-                qDebug() << m_softName[i].at(j);
-                qDebug() << m_softPath[i].at(j);
-                // Æô¶¯¶ÔÓ¦µÄÈí¼ş
-                QString path = QString("./%1/%2").arg(m_softType[i], m_softPath[i].at(j));
+                // å¯åŠ¨å¯¹åº”çš„è½¯ä»¶
+                QString path = QString("./%1/%2").arg(m_lSoftType.at(i), m_lSoftPath.at(j));
                 QProcess process;
                 process.startDetached(path);
                 return;
             }
         }
+    }
+}
+
+// é‡å†™äº‹ä»¶è¿‡æ»¤å™¨
+//bool QTools::eventFilter(QObject *o, QEvent *e)
+//{
+//    if (o == m_pToolBox)
+//    {
+//        if (e->type() == QEvent::ContextMenu)
+//        {
+//            qDebug() << o;
+//        }
+//        return true;
+//    }
+
+//    //å…¶å®ƒéƒ¨ä»¶äº§ç”Ÿçš„äº‹ä»¶åˆ™äº¤ç»™åŸºç±»å¤„ç†
+//    return QDialog::eventFilter(o, e);
+//}
+
+// é‡å†™é¼ æ ‡å³å‡»äº‹ä»¶
+//void QTools::contextMenuEvent(QContextMenuEvent *event)
+//{
+//    // æŸ¥æ‰¾è¢«å³å‡»çš„æ§ä»¶
+//    pWidget = childAt(event->x(), event->y());
+//    qDebug() << event;
+//    if(nullptr == pWidget)
+//    {
+//        return;
+//    }
+
+//    // åˆ›å»ºå³é”®èœå•
+//    m_pBoxMenu = new QMenu(this);
+//    m_pBoxMenu->addAction(QString("é‡å‘½å"));
+//    m_pBoxMenu->addAction(QString("æ·»åŠ åˆ†ç»„"));
+//    m_pBoxMenu->addAction(QString("åˆ é™¤åˆ†ç»„"));
+//    m_pBoxMenu->move(QCursor::pos().x(), QCursor::pos().y());
+//    m_pBoxMenu->show();
+
+//    // è¿æ¥ä¿¡å·å’Œæ§½
+//    connect(m_pBoxMenu, SIGNAL(triggered(QAction*)), this, SLOT(on_boxAction(QAction*)));
+
+//}
+
+void QTools::on_boxAction(QAction* action)
+{
+    if (action->text() == "é‡å‘½å")
+    {
+        // å¼ºåˆ¶è½¬æ¢æ§ä»¶ç±»å‹
+        pBt = dynamic_cast<QAbstractButton*>(pWidget);
+        if(nullptr == pBt)
+        {
+            return;
+        }
+        // è¢«å³å‡»çš„æ§ä»¶
+        m_curTypeName = pBt->text();
+        // è¢«å³å‡»çš„æ§ä»¶è¾“å…¥æ¡†
+        m_pTypeEdit = new QLineEdit(m_pToolBox);
+        m_pTypeEdit->setText(m_curTypeName);
+        m_pTypeEdit->setFont(QFont("Arial", 9, QFont::Normal));
+        m_pTypeEdit->setFocus();
+        m_pTypeEdit->move(pBt->pos());
+        m_pTypeEdit->resize(pBt->size());
+        m_pTypeEdit->show();
+        // è¿æ¥ä¿¡å·å’Œæ§½
+        connect(m_pTypeEdit, SIGNAL(editingFinished()), this, SLOT(on_editingFinished()));
+    }
+    if (action->text() == "æ·»åŠ åˆ†ç»„")
+    {
+        qDebug() << "æ·»åŠ åˆ†ç»„";
+        if (m_lSoftType.contains("æœªå‘½å"))
+        {
+            qDebug() << "Already created";
+            return;
+        }
+        m_lSoftType.append("æœªå‘½å");
+        // å®šä¹‰ListWidget
+        m_pListWidget = new ListWidget(this);
+        m_pListWidgeItem = new QListWidgetItem(m_pListWidget);
+        m_pListWidget->addItem(m_pListWidgeItem);
+        // è®¾ç½®å›¾æ ‡çš„å¤§å°
+        m_pListWidget->setIconSize(QSize(48, 48));
+        // è®¾ç½®ç½‘æ ¼çš„å¤§å°
+        m_pListWidget->setGridSize(QSize(80, 80));
+        // è®¾ç½®QListViewå¤§å°æ”¹å˜æ—¶ï¼Œå›¾æ ‡çš„è°ƒæ•´æ¨¡å¼ï¼Œè‡ªåŠ¨è°ƒæ•´
+        m_pListWidget->setResizeMode(QListView::Adjust);
+        // è®¾ç½®å›¾æ ‡å¯ä¸å¯ä»¥ç§»åŠ¨ï¼Œé»˜è®¤æ˜¯å¯ç§»åŠ¨çš„ï¼Œæ”¹æˆé™æ€çš„
+        m_pListWidget->setMovement(QListView::Static);
+        // toolBoxé‡Œæ·»åŠ ListWidget
+        m_pToolBox->addItem(m_pListWidget, "æœªå‘½å");
+        // æ’å…¥æ•°æ®
+        if (DbUtils::insertSoftType("æœªå‘½å"))
+        {
+            // åˆ›å»ºè½¯ä»¶ç±»å‹æ–‡ä»¶å¤¹
+            QString dirPath = "./æœªå‘½å";
+            QDir dir;
+            // åˆ¤æ–­æ–‡ä»¶å¤¹æ˜¯å¦å­˜åœ¨
+            if (!dir.exists(dirPath))
+            {
+                // ä¸å­˜åœ¨åˆ›å»ºæ–‡ä»¶å¤¹
+                dir.mkdir(dirPath);
+            }
+        }
+    }
+    if (action->text() == "åˆ é™¤åˆ†ç»„")
+    {
+        qDebug() << "åˆ é™¤åˆ†ç»„";
+//        // å¼ºåˆ¶è½¬æ¢æ§ä»¶ç±»å‹
+//        pBt = dynamic_cast<QAbstractButton*>(pWidget);
+//        if(nullptr == pBt)
+//        {
+//            return;
+//        }
+//        // è¢«å³å‡»çš„æ§ä»¶
+//        m_curTypeName = pBt->text();
+//        qDebug() << pBt;
+//        // åˆ é™¤æ•°æ®
+//        if (DbUtils::deleteSoftType(m_curTypeName))
+//        {
+//            // åˆ é™¤è½¯ä»¶ç±»å‹æ–‡ä»¶å¤¹
+//            QString dirPath = "./" + m_curTypeName;
+//            QDir dir;
+//            // åˆ¤æ–­æ–‡ä»¶å¤¹æ˜¯å¦å­˜åœ¨
+//            if (dir.exists(dirPath))
+//            {
+//                // å­˜åœ¨åˆ é™¤æ–‡ä»¶å¤¹
+//                dir.rmdir(dirPath);
+//                for (int i = 0; i < m_lSoftType.size(); i++)
+//                {
+//                    m_pToolBox->removeItem(i);
+//                }
+//                initToolBox();
+//            }
+//        }
+    }
+}
+
+// ä¿®æ”¹è½¯ä»¶ç±»å‹
+void QTools::on_editingFinished()
+{
+    qDebug() << m_pTypeEdit->hasFocus();
+    if (!m_pTypeEdit->hasFocus())
+    {
+        QString newSoftType = m_pTypeEdit->text();
+        if (m_curTypeName != newSoftType)
+        {
+            // æ›´æ–°æ•°æ®
+            if (DbUtils::updateSoftType(m_curTypeName, newSoftType))
+            {
+                // ä¿®æ”¹æ–‡ä»¶å¤¹å
+                QString oldDirPath = "./" + m_curTypeName;
+                QString newDirPath = "./" + newSoftType;
+                QDir dir;
+                dir.rename(oldDirPath, newDirPath);
+                // æ›´æ–°æ§ä»¶å
+                pBt->setText(newSoftType);
+            }
+        }
+    }
+    m_pTypeEdit->close();
+}
+
+void QTools::on_toolBox_currentChanged(int index)
+{
+    if (m_pTypeEdit)
+    {
+        m_pTypeEdit->clearFocus();
+    }
+    if (index >= 0)
+    {
+        //qDebug() << m_lSoftTypeId.at(index);
     }
 }

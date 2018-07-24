@@ -1,23 +1,19 @@
-#ifndef UTILS_H
+﻿#ifndef UTILS_H
 #define UTILS_H
 
+// 正常显示中文
+#pragma execution_character_set("utf-8")
+
+// 自定义类
 #include "FontIcons.h"
-#include <QNetworkInterface>
-#include <QSystemTrayIcon>
-#include <QListWidgetItem>
+
 #include <QApplication>
-#include <QPushButton>
-#include <QListWidget>
 #include <QDateTime>
-#include <QLayout>
+#include <QNetworkInterface>
 #include <QWidget>
-#include <QDebug>
-#include <QTimer>
-#include <QList>
-#include <QFont>
 #include <QFile>
 #include <QDir>
-#include <QProcess>
+
 
 class Utils : public QWidget
 {
@@ -30,6 +26,8 @@ public:
     static QString getHostIpAddress();
     // 获取Mac地址
     static QString getHostMacAddress();
+    // 创建文件夹
+    static bool createFolder(QString dirPath);
 
     // 设置图标，为了让所有控件都能通过此函数设置图标使用了函数模板
     template <class obj>

@@ -1,17 +1,13 @@
-#ifndef TITLEBAR_H
+﻿#ifndef TITLEBAR_H
 #define TITLEBAR_H
 
 #include "Utils.h"
+#include <QSystemTrayIcon>
+#include <QLabel>
 #include <QPushButton>
+#include <QMenu>
 #include <QHBoxLayout>
 #include <QMouseEvent>
-#include <QApplication>
-#include <QDebug>
-#include <QMenu>
-#include <QWidget>
-#include <QLabel>
-#include <QEvent>
-
 
 class QLabel;
 class QPushButton;

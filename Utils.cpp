@@ -1,4 +1,4 @@
-#include "Utils.h"
+﻿#include "Utils.h"
 
 // 设置皮肤
 void Utils::setStyle(const QString &style)
@@ -14,7 +14,7 @@ void Utils::setStyle(const QString &style)
 QString Utils::getTime()
 {
     QDateTime dt = QDateTime::currentDateTime();
-    QString time = dt.toString("yyyy年MM月dd日hh:mm:ss");
+    QString time = dt.toString("yyyy-MM-dd HH:mm:ss");
     return time;
 }
 
@@ -40,7 +40,7 @@ QString Utils::getHostIpAddress()
 }
 
 // 获取Mac地址
-QString getHostMacAddress()
+QString Utils::getHostMacAddress()
 {
     QList<QNetworkInterface> nets = QNetworkInterface::allInterfaces();// 获取所有网络接口列表
     int nCnt = nets.count();
@@ -55,4 +55,18 @@ QString getHostMacAddress()
         }
     }
     return strMacAddr;
+}
+
+// 创建文件夹
+bool Utils::createFolder(QString dirPath)
+{
+    QDir dir;
+    // 判断文件夹是否存在
+    if (!dir.exists(dirPath))
+    {
+        // 不存在创建文件夹
+        dir.mkdir(dirPath);
+        return true;
+    }
+    return false;
 }

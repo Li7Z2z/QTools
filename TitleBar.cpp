@@ -1,4 +1,4 @@
-#include "TitleBar.h"
+﻿#include "TitleBar.h"
 
 #ifdef Q_OS_WIN
 #pragma comment(lib, "user32.lib")
@@ -232,10 +232,14 @@ void TitleBar::on_activatedSysTrayIcon(QSystemTrayIcon::ActivationReason reason)
     {
     case QSystemTrayIcon::Trigger:
         // 单击托盘图标
+        // 单击后显示主程序窗口
+        m_pWindow->move(pos);
+        m_pWindow->hide();
+        m_pWindow->show();
         break;
     case QSystemTrayIcon::DoubleClick:
         // 双击托盘图标
-        // 双击后显示主程序窗口
+        // 单击后显示主程序窗口
         m_pWindow->move(pos);
         m_pWindow->hide();
         m_pWindow->show();
@@ -256,7 +260,7 @@ void TitleBar::createTrayMenu()
     m_pTrayMenu = new QMenu(this);
     m_pTrayMenu->addAction(QString("显示"));
     m_pTrayMenu->addAction(QString("设置"));
-    m_pTrayMenu->addAction(QString("Exit"));
+    m_pTrayMenu->addAction(QString("退出"));
 }
 
 // 处理托盘图标菜单点击事件
@@ -272,7 +276,7 @@ void TitleBar::on_trayAction(QAction *action)
     {
 
     }
-    if (action->text() == "Exit")
+    if (action->text() == "退出")
     {
         qApp->quit();
     }
