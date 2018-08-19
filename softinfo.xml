@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<root>
+	<type name="文本编辑">
+		<soft name="Nmap" path="C:/Program Files (x86)/Nmap/zenmap.exe" icon="zenmap.png" />
+		<soft name="迅雷" path="C:/Program Files (x86)/Thunder Network/Thunder9/Program/thunderstart.exe" icon="thunderstart.png" />
+		<soft name="添加" path="add" icon="add.png" />
+	</type>
+	<type name="图像处理">
+		<soft name="添加" path="" icon="add.png" />
+	</type>
+	<type name="压缩解压">
+		<soft name="添加" path="" icon="add.png" />
+	</type>
+	<type name="加密解密">
+		<soft name="添加" path="" icon="add.png" />
+	</type>
+	<type name="网络工具">
+		<soft name="添加" path="" icon="add.png" />
+	</type>
+	<type name="扫描工具">
+		<soft name="添加" path="" icon="add.png" />
+	</type>
+	<type name="安全工具">
+		<soft name="添加" path="" icon="add.png" />
+	</type>
+	<type name="下载工具">
+		<soft name="添加" path="" icon="add.png" />
+	</type>
+	<type name="调试工具">
+		<soft name="添加" path="" icon="add.png" />
+	</type>
+</root>
