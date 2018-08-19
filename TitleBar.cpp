@@ -10,6 +10,7 @@ TitleBar::TitleBar(QWidget *parent)
 {
     // 标题栏高度
     setFixedHeight(32);
+    qDebug() << this->width();
 
     m_pWindow = this->window();
     m_pIconLabel = new QLabel(this);
@@ -278,6 +279,6 @@ void TitleBar::on_trayAction(QAction *action)
     }
     if (action->text() == "退出")
     {
-        qApp->quit();
+        close();
     }
 }

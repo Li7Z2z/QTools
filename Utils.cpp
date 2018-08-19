@@ -56,17 +56,3 @@ QString Utils::getHostMacAddress()
     }
     return strMacAddr;
 }
-
-// 创建文件夹
-bool Utils::createFolder(QString dirPath)
-{
-    QDir dir;
-    // 判断文件夹是否存在
-    if (!dir.exists(dirPath))
-    {
-        // 不存在创建文件夹
-        dir.mkdir(dirPath);
-        return true;
-    }
-    return false;
-}

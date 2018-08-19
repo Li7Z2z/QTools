@@ -33,8 +33,10 @@ SOURCES += \
     Utils.cpp \
     ConfigFile.cpp \
     DbUtils.cpp \
+    ToolBox.cpp \
+    pugixml.cpp \
     ListWidget.cpp \
-    ToolBox.cpp
+    XmlData.cpp
 
 HEADERS += \
         QTools.h \
@@ -43,8 +45,11 @@ HEADERS += \
     Utils.h \
     ConfigFile.h \
     DbUtils.h \
+    ToolBox.h \
+    pugiconfig.hpp \
+    pugixml.hpp \
     ListWidget.h \
-    ToolBox.h
+    XmlData.h
 
 FORMS += \
         QTools.ui

@@ -6,32 +6,50 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>300</width>
-    <height>705</height>
+    <width>315</width>
+    <height>740</height>
    </rect>
   </property>
-  <property name="styleSheet">
-   <string notr="true"/>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="font">
+   <font>
+    <pointsize>10</pointsize>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>QTools多功能工具箱</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="icon.qrc">
+    <normaloff>:/Icon/iconfont_48.png</normaloff>:/Icon/iconfont_48.png</iconset>
   </property>
   <widget class="QLabel" name="lbl_time">
    <property name="geometry">
     <rect>
-     <x>150</x>
-     <y>30</y>
-     <width>150</width>
+     <x>161</x>
+     <y>40</y>
+     <width>141</width>
      <height>30</height>
     </rect>
    </property>
    <property name="text">
     <string/>
    </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
   </widget>
   <widget class="QLabel" name="lbl_ip">
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>30</y>
-     <width>130</width>
+     <y>40</y>
+     <width>151</width>
      <height>30</height>
     </rect>
    </property>
@@ -43,17 +61,67 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>70</y>
-     <width>240</width>
+     <y>72</y>
+     <width>260</width>
      <height>30</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+   <property name="placeholderText">
+    <string>输入关键词搜索...</string>
    </property>
   </widget>
   <widget class="QPushButton" name="btn_search">
    <property name="geometry">
     <rect>
-     <x>250</x>
-     <y>70</y>
+     <x>270</x>
+     <y>72</y>
+     <width>35</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>(*)</string>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QToolBox" name="toolBox">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>110</y>
+     <width>295</width>
+     <height>580</height>
+    </rect>
+   </property>
+   <property name="tabSpacing">
+    <number>1</number>
+   </property>
+   <widget class="QWidget" name="widget">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>295</width>
+      <height>558</height>
+     </rect>
+    </property>
+    <attribute name="label">
+     <string/>
+    </attribute>
+   </widget>
+  </widget>
+  <widget class="QPushButton" name="btn_setup">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>702</y>
      <width>35</width>
      <height>30</height>
     </rect>
@@ -65,34 +133,157 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QToolBox" name="toolBox">
+  <widget class="QPushButton" name="btn_addType">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>110</y>
-     <width>275</width>
-     <height>577</height>
+     <x>50</x>
+     <y>702</y>
+     <width>35</width>
+     <height>30</height>
     </rect>
    </property>
-   <property name="tabSpacing">
-    <number>1</number>
+   <property name="text">
+    <string/>
    </property>
-   <widget class="QWidget" name="widget">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>275</width>
-      <height>556</height>
-     </rect>
-    </property>
-    <attribute name="label">
-     <string/>
-    </attribute>
-   </widget>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
   </widget>
+  <widget class="QPushButton" name="btn_skin">
+   <property name="geometry">
+    <rect>
+     <x>90</x>
+     <y>702</y>
+     <width>35</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_icon">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>32</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(90,90,90);</string>
+   </property>
+   <property name="text">
+    <string>(- -)</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_min">
+   <property name="geometry">
+    <rect>
+     <x>230</x>
+     <y>0</y>
+     <width>42</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>最小化</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton{
+background-color: rgb(90,90,90);
+border-radius: 0px;
+}
+QPushButton:hover{background-color: rgb(60,60,60);}
+</string>
+   </property>
+   <property name="text">
+    <string>-</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_close">
+   <property name="geometry">
+    <rect>
+     <x>273</x>
+     <y>0</y>
+     <width>42</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>关闭</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton{
+background-color: rgb(90,90,90);
+border-radius: 0px;
+}
+QPushButton:hover{background-color: rgb(255, 0, 0);}</string>
+   </property>
+   <property name="text">
+    <string>x</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_title">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>315</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="mouseTracking">
+    <bool>true</bool>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton{
+background-color: rgb(90,90,90);
+border-radius: 0px;
+padding-left: 35px;
+text-align: left;
+}</string>
+   </property>
+   <property name="text">
+    <string>QTools多功能工具箱</string>
+   </property>
+   <property name="flat">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <zorder>btn_title</zorder>
+  <zorder>lbl_time</zorder>
+  <zorder>lbl_ip</zorder>
+  <zorder>le_search</zorder>
+  <zorder>btn_search</zorder>
+  <zorder>toolBox</zorder>
+  <zorder>btn_setup</zorder>
+  <zorder>btn_addType</zorder>
+  <zorder>btn_skin</zorder>
+  <zorder>btn_min</zorder>
+  <zorder>btn_close</zorder>
+  <zorder>lbl_icon</zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="icon.qrc"/>
+ </resources>
  <connections/>
 </ui>
