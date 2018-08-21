@@ -10,7 +10,7 @@
 #include <QDir>
 
 // XML文件路径
-const char xmlFilePath[64] = "./softinfo.xml";
+const char xmlFilePath[64] = "./SoftInfo.xml";
 
 class XmlData
 {
@@ -23,12 +23,18 @@ public:
     static bool createFolder(QString dirPath);
     // 判断软件名是否存在
     static bool isExist(QString softName);
+    // 添加软件类型到XML文件中
+    static bool addTypeXml(QString softType);
+    // XML文件中删除软件类型
+    static bool removeTypeXml(QString name);
+    // XML文件中修改软件类型
+    static bool modifyTypeXml(QString oldType, QString newType);
     // 添加软件到XML文件中
-    static bool addSoftToXml(QString softType, const char *softName, const char *softPath, const char *softIcon);
+    static bool addSoftXml(QString softType, QString softName, QString softPath, QString softIcon);
     // XML文件中删除软件
     static bool removeSoftXml(QString name);
-    // XML文件中修改软件名
-    static bool modifySoftNameXml(const char *oldName, const char *newName);
+    // XML文件中修改软件
+    static bool modifySoftXml(QString oldName, QString newName);
 
 public:
     static QList<QString>           lSoftType;  // 软件类型

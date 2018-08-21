@@ -59,14 +59,18 @@ void ListWidget::on_boxAction(QAction* action)
         }
         else
         {
-            // 修改软件名
-            modifySoftName(m_currentName, newName);
+            // XML文件中修改软件名
+            XmlData::modifySoftXml(m_currentName, newName);
+            // 列表中修改软件名
+            modifySoftList(m_currentName, newName);
         }
     }
     else if (action->text() == "删除")
     {
-        // 删除软件
-        removeSoft();
+        // XML文件中删除软件
+        XmlData::removeSoftXml(m_currentName);
+        // 列表中删除软件
+        removeSoftList(m_currentName);
     }
 }
 
@@ -86,26 +90,8 @@ QString ListWidget::getNewName()
     return m_currentName;
 }
 
-// 修改软件名
-void ListWidget::modifySoftName(QString oldName, QString newName)
-{
-    // XML文件中修改软件名
-    XmlData::modifySoftNameXml(oldName.toStdString().c_str(), newName.toStdString().c_str());
-    // 列表中修改软件名
-    modifySoftNameList(oldName, newName);
-}
-
-// 删除软件
-void ListWidget::removeSoft()
-{
-    // XML文件中删除软件
-    XmlData::removeSoftXml(m_currentName);
-    // 列表中删除软件
-    removeSoftList(m_currentName);
-}
-
 // 列表中修改软件名
-bool ListWidget::modifySoftNameList(QString oldName, QString newName)
+bool ListWidget::modifySoftList(QString oldName, QString newName)
 {
     for (int i = 0; i < XmlData::lSoftType.size(); i++)
     {

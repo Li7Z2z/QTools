@@ -127,29 +127,13 @@
     </rect>
    </property>
    <property name="text">
-    <string/>
+    <string>(*)</string>
    </property>
    <property name="flat">
     <bool>true</bool>
    </property>
   </widget>
   <widget class="QPushButton" name="btn_addType">
-   <property name="geometry">
-    <rect>
-     <x>50</x>
-     <y>702</y>
-     <width>35</width>
-     <height>30</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="flat">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="btn_skin">
    <property name="geometry">
     <rect>
      <x>90</x>
@@ -159,7 +143,23 @@
     </rect>
    </property>
    <property name="text">
-    <string/>
+    <string>+</string>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_removeType">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>702</y>
+     <width>35</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>-</string>
    </property>
    <property name="flat">
     <bool>true</bool>
@@ -268,6 +268,22 @@ text-align: left;
     <bool>false</bool>
    </property>
   </widget>
+  <widget class="QPushButton" name="btn_modifyType">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>702</y>
+     <width>35</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>/</string>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
+  </widget>
   <zorder>btn_title</zorder>
   <zorder>lbl_time</zorder>
   <zorder>lbl_ip</zorder>
@@ -276,10 +292,11 @@ text-align: left;
   <zorder>toolBox</zorder>
   <zorder>btn_setup</zorder>
   <zorder>btn_addType</zorder>
-  <zorder>btn_skin</zorder>
+  <zorder>btn_removeType</zorder>
   <zorder>btn_min</zorder>
   <zorder>btn_close</zorder>
   <zorder>lbl_icon</zorder>
+  <zorder>btn_modifyType</zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>

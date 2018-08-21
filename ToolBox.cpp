@@ -41,14 +41,14 @@ void ToolBox::initToolBox()
 }
 
 // 添加软件到列表中，内存中处理数据的插入，不需要再次读取XML文件
-bool ToolBox::addSoftToList(QString softName, QString softPath, QString softIcon)
+bool ToolBox::addSoftList(QString softName, QString softPath, QString softIcon)
 {
     // 插入的位置
     int index = currentIndex();
     int row = m_pListWidget.at(index)->count();
     m_pListWidget.at(index)->setSortingEnabled(true);
 
-    // 列表中添加数据
+    // 链表中添加数据
     XmlData::llSoftName[index].append(softName);
     XmlData::llSoftPath[index].append(softPath);
     XmlData::llSoftIcon[index].append(softIcon);
@@ -60,6 +60,46 @@ bool ToolBox::addSoftToList(QString softName, QString softPath, QString softIcon
     m_pListWidget.at(index)->setSortingEnabled(false);
 
     return true;
+}
+
+// 添加软件类型到列表中
+bool ToolBox::addTypeList(QString softType)
+{
+    ListWidget *listWidget = new ListWidget(this);
+    connect(listWidget, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(on_itemClicked(QListWidgetItem*)));
+    m_pListWidget.append(listWidget);
+    int i = m_pListWidget.size()-1;
+    // 列表中添加数据
+    m_pListWidgeItem = new QListWidgetItem(m_pListWidget.at(i));
+    m_pListWidgeItem->setIcon(QIcon("./Icon/add.png"));
+    m_pListWidgeItem->setText("添加");
+    m_pListWidget.at(i)->addItem(m_pListWidgeItem);
+    // 链表中添加数据
+    QStringList name;
+    QStringList path;
+    QStringList icon;
+    name.append("添加");
+    path.append("");
+    icon.append("add.png");
+    XmlData::llSoftName.append(name);
+    XmlData::llSoftPath.append(path);
+    XmlData::llSoftIcon.append(icon);
+    // toolBox里添加ListWidget
+    addItem(m_pListWidget.at(i), softType);
+    return true;
+}
+
+// 列表中修改软件类型
+bool ToolBox::modifyTypeList(int index, QString newType)
+{
+    setItemText(index, newType);
+    return true;
+}
+
+// 删除软件类型
+void ToolBox::removeTyleList(int index)
+{
+    removeItem(index);
 }
 
 // 打开软件
@@ -89,9 +129,9 @@ void ToolBox::openSoft()
     else
     {
         // 添加软件到XML文件中
-        XmlData::addSoftToXml(softType, softName.toStdString().c_str(), fileName.toStdString().c_str(), softIcon.toStdString().c_str());
+        XmlData::addSoftXml(softType, softName, fileName, softIcon);
         // 添加软件到列表中
-        addSoftToList(softName, fileName, softIcon);
+        addSoftList(softName, fileName, softIcon);
     }
 }
 
@@ -99,6 +139,7 @@ void ToolBox::openSoft()
 void ToolBox::on_itemClicked(QListWidgetItem* item)
 {
     QString name = item->text();
+    qDebug() << name;
     if (name == "添加")
     {
         openSoft();

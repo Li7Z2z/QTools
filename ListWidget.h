@@ -26,8 +26,6 @@ class ListWidget : public QListWidget
 public:
     ListWidget(QWidget *parent = nullptr);
 
-    bool addSoft(int index, QString softName, QString softPath, QString softIcon);
-
 public slots:
     // 处理右键菜单点击事件
     void on_boxAction(QAction* action);
@@ -39,23 +37,14 @@ private:
     virtual void contextMenuEvent(QContextMenuEvent *event);
     // 弹出输入框获取新软件名
     QString getNewName();
-    // 修改软件
-    void modifySoftName(QString oldName, QString newName);
-    // XML文件中修改软件名
-    bool modifyNameXml(const char *oldName, const char *newName);
-    // 列表中修改软件名
-    bool modifySoftNameList(QString oldName, QString newName);
-    // 删除软件
-    void removeSoft();
-    // XML文件中删除软件
-    bool removeSoftXml(const char *name);
+    // 列表中修改软件
+    bool modifySoftList(QString oldName, QString newName);
     // 列表中删除软件
     bool removeSoftList(QString softName);
 
 private:
     QListWidgetItem         *m_pItem;           // 被右击的Item
     QString                 m_currentName;      // 被右击的Item名
-
 };
 
 #endif // LISTWIDGET_H

@@ -29,10 +29,7 @@ SOURCES += \
         main.cpp \
         QTools.cpp \
     FontIcons.cpp \
-    TitleBar.cpp \
     Utils.cpp \
-    ConfigFile.cpp \
-    DbUtils.cpp \
     ToolBox.cpp \
     pugixml.cpp \
     ListWidget.cpp \
@@ -41,10 +38,7 @@ SOURCES += \
 HEADERS += \
         QTools.h \
     FontIcons.h \
-    TitleBar.h \
     Utils.h \
-    ConfigFile.h \
-    DbUtils.h \
     ToolBox.h \
     pugiconfig.hpp \
     pugixml.hpp \
