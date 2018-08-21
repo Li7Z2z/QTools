@@ -21,8 +21,10 @@ public:
     static bool readXml();
     // 创建文件夹
     static bool createFolder(QString dirPath);
+    // 判断软件分类是否存在
+    static bool isType(QString softType);
     // 判断软件名是否存在
-    static bool isExist(QString softName);
+    static bool isSoft(QString softName);
     // 添加软件类型到XML文件中
     static bool addTypeXml(QString softType);
     // XML文件中删除软件类型

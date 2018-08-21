@@ -53,8 +53,13 @@ void ListWidget::on_boxAction(QAction* action)
     {
         // 弹出输入框获取新软件名
         QString newName = getNewName();
-        if (newName == "" || newName == m_currentName || XmlData::isExist(newName))
+        if (newName == "" || newName == m_currentName)
         {
+            return;
+        }
+        else if (XmlData::isSoft(newName))
+        {
+            qDebug() << "软件名不能重复";
             return;
         }
         else

@@ -1,6 +1,6 @@
 ﻿#include "XmlData.h"
 
-QList<QString>           XmlData::lSoftType;  // 软件类型
+QList<QString>           XmlData::lSoftType;  // 软件分类
 QList<QList<QString> >   XmlData::llSoftName; // 软件名称
 QList<QList<QString> >   XmlData::llSoftPath; // 软件路径
 QList<QList<QString> >   XmlData::llSoftIcon; // 软件图标
@@ -32,7 +32,7 @@ bool XmlData::readXml()
     pugi::xml_node type = root.child("type");
     while (type)
     {
-        // 创建软件类型文件夹
+        // 创建软件分类文件夹
         QString dirPath = "./" + QString(type.attribute("name").value());
         createFolder(dirPath);
         // 软件名、路径、图标
@@ -47,7 +47,7 @@ bool XmlData::readXml()
             icon.append(soft.attribute("icon").value());
             soft = soft.next_sibling();
         }
-        // 软件类型
+        // 软件分类
         lSoftType.append(type.attribute("name").value());
         // 软件信息
         llSoftName.append(name);
@@ -72,8 +72,32 @@ bool XmlData::createFolder(QString dirPath)
     return false;
 }
 
+// 判断软件分类是否存在
+bool XmlData::isType(QString softType)
+{
+    // 打开XML文件
+    pugi::xml_document doc;
+    if(!doc.load_file(xmlFilePath, pugi::parse_default, pugi::encoding_utf8))
+    {
+        qDebug() << "打开XML文件失败";
+        return false;
+    }
+    pugi::xml_node root = doc.child("root");
+    // 读取第一个节点
+    pugi::xml_node type = root.child("type");
+    while (type)
+    {
+        if (QString(type.attribute("name").value()) == softType)
+        {
+            return true;
+        }
+        type = type.next_sibling();
+    }
+    return false;
+}
+
 // 判断软件名是否存在
-bool XmlData::isExist(QString softName)
+bool XmlData::isSoft(QString softName)
 {
     // 打开XML文件
     pugi::xml_document doc;
@@ -102,7 +126,7 @@ bool XmlData::isExist(QString softName)
     return false;
 }
 
-// 添加软件类型到XML文件中
+// 添加软件分类到XML文件中
 bool XmlData::addTypeXml(QString softType)
 {
     // 打开XML文件
@@ -113,9 +137,9 @@ bool XmlData::addTypeXml(QString softType)
         return false;
     }
     pugi::xml_node root = doc.child("root");
-    // 添加软件类型节点
+    // 添加软件分类节点
     pugi::xml_node newNode = root.append_child("type");
-    // 添加软件类型属性
+    // 添加软件分类属性
     newNode.append_attribute("name").set_value(softType.toStdString().c_str());
     // 添加软件节点
     pugi::xml_node newChild = newNode.append_child("soft");
@@ -128,7 +152,48 @@ bool XmlData::addTypeXml(QString softType)
     return true;
 }
 
-// XML文件中删除软件类型
+// 添加软件到XML文件中
+bool XmlData::addSoftXml(QString softType, QString softName, QString softPath, QString softIcon)
+{
+    // 打开XML文件
+    pugi::xml_document doc;
+    if(!doc.load_file(xmlFilePath, pugi::parse_default, pugi::encoding_utf8))
+    {
+        qDebug() << "打开XML文件失败";
+        return false;
+    }
+    pugi::xml_node root = doc.child("root");
+    // 读取第一个节点
+    pugi::xml_node type = root.child("type");
+    while (type)
+    {
+        // 查找软件分类
+        if (QString(type.attribute("name").value()) == softType)
+        {
+            pugi::xml_node soft = type.child("soft");
+            while (soft)
+            {
+                if (QString(soft.attribute("name").value()) == "添加")
+                {
+                    // 添加节点
+                    pugi::xml_node newNode = type.insert_child_before("soft", soft);
+                    // 添加属性
+                    newNode.append_attribute("name").set_value(softName.toStdString().c_str());
+                    newNode.append_attribute("path").set_value(softPath.toStdString().c_str());
+                    newNode.append_attribute("icon").set_value(softIcon.toStdString().c_str());
+                    // 保存XML文件
+                    doc.save_file(xmlFilePath);
+                    return true;
+                }
+                soft = soft.next_sibling();
+            }
+        }
+        type = type.next_sibling();
+    }
+    return false;
+}
+
+// XML文件中删除软件分类
 bool XmlData::removeTypeXml(QString name)
 {
     // 打开XML文件
@@ -145,7 +210,7 @@ bool XmlData::removeTypeXml(QString name)
     {
         if (QString(type.attribute("name").value()) == name)
         {
-            // 删除软件类型
+            // 删除软件分类
             root.remove_child(type);
             // 保存XML文件
             doc.save_file(xmlFilePath);
@@ -156,7 +221,7 @@ bool XmlData::removeTypeXml(QString name)
     return false;
 }
 
-// XML文件中修改软件类型
+// XML文件中修改软件分类
 bool XmlData::modifyTypeXml(QString oldType, QString newType)
 {
     // 打开XML文件
@@ -178,47 +243,6 @@ bool XmlData::modifyTypeXml(QString oldType, QString newType)
             // 保存XML文件
             doc.save_file(xmlFilePath);
             return true;
-        }
-        type = type.next_sibling();
-    }
-    return false;
-}
-
-// 添加软件到XML文件中
-bool XmlData::addSoftXml(QString softType, QString softName, QString softPath, QString softIcon)
-{
-    // 打开XML文件
-    pugi::xml_document doc;
-    if(!doc.load_file(xmlFilePath, pugi::parse_default, pugi::encoding_utf8))
-    {
-        qDebug() << "打开XML文件失败";
-        return false;
-    }
-    pugi::xml_node root = doc.child("root");
-    // 读取第一个节点
-    pugi::xml_node type = root.child("type");
-    while (type)
-    {
-        // 查找软件类型
-        if (QString(type.attribute("name").value()) == softType)
-        {
-            pugi::xml_node soft = type.child("soft");
-            while (soft)
-            {
-                if (QString(soft.attribute("name").value()) == "添加")
-                {
-                    // 添加节点
-                    pugi::xml_node newNode = type.insert_child_before("soft", soft);
-                    // 添加属性
-                    newNode.append_attribute("name").set_value(softName.toStdString().c_str());
-                    newNode.append_attribute("path").set_value(softPath.toStdString().c_str());
-                    newNode.append_attribute("icon").set_value(softIcon.toStdString().c_str());
-                    // 保存XML文件
-                    doc.save_file(xmlFilePath);
-                    return true;
-                }
-                soft = soft.next_sibling();
-            }
         }
         type = type.next_sibling();
     }

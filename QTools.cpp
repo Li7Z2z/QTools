@@ -32,7 +32,8 @@ void QTools::initUi()
     // 初始化ToolBox
     m_pToolBox = new ToolBox(this);
     m_typeIndex = 0;
-    m_typeName = XmlData::lSoftType.at(m_typeIndex);
+    if (!XmlData::lSoftType.empty())
+        m_typeName = XmlData::lSoftType.at(m_typeIndex);
     connect(m_pToolBox, SIGNAL(currentChanged(int)), this, SLOT(on_currentChanged(int)));
 
     // 创建托盘操作菜单
@@ -149,12 +150,46 @@ void QTools::on_trayAction(QAction *action)
     }
 }
 
-// 弹出输入框获取新软件名
+//删除文件夹
+bool QTools::delDir(const QString &path)
+{
+    if (path.isEmpty())
+    {
+        return false;
+    }
+    QDir dir(path);
+    if(!dir.exists())
+    {
+        return true;
+    }
+    //设置过滤
+    dir.setFilter(QDir::AllEntries | QDir::NoDotAndDotDot);
+    // 获取所有的文件信息
+    QFileInfoList fileList = dir.entryInfoList();
+    //遍历文件信息
+    foreach (QFileInfo file, fileList)
+    {
+        // 是文件，删除
+        if (file.isFile())
+        {
+            file.dir().remove(file.fileName());
+        }
+        else
+        {
+            // 递归删除
+            delDir(file.absoluteFilePath());
+        }
+    }
+    // 删除文件夹
+    return dir.rmpath(dir.absolutePath());
+}
+
+// 弹出输入框获取新分类名
 QString QTools::getNewName()
 {
     QInputDialog *inputDialog = new QInputDialog(this);
-    inputDialog->setWindowTitle("修改软件类型名");
-    inputDialog->setLabelText("请输入类型名：");
+    inputDialog->setWindowTitle("修改软件分类名");
+    inputDialog->setLabelText("请输入分类名：");
     inputDialog->setOkButtonText("确定");
     inputDialog->setCancelButtonText("取消");
     inputDialog->setTextValue(m_typeName);
@@ -186,24 +221,55 @@ void QTools::on_btn_setup_clicked()
 void QTools::on_btn_modifyType_clicked()
 {
     QString newName = getNewName();
+    if (newName == "" || XmlData::isType(newName))
+        return;
     XmlData::modifyTypeXml(m_typeName, newName);
     XmlData::lSoftType.replace(m_typeIndex, newName);
-    m_pToolBox->modifyTypeList(m_typeIndex, newName);
+    m_pToolBox->setItemText(m_typeIndex, newName);
+    QString oldPath = QString("./%1").arg(m_typeName);
+    QString newPath = QString("./%1").arg(newName);
+    QFile::rename(oldPath, newPath);
 }
 
 void QTools::on_btn_addType_clicked()
 {
+    int n = m_pToolBox->count();
+    if (n > 9)
+    {
+        qDebug() << "最多只能添加10个分类";
+        return;
+    }
     QString newName = getNewName();
+    if (newName == "")
+    {
+        return;
+    }
+    else if (XmlData::isType(newName))
+    {
+        qDebug() << "软件分类不能重复";
+        return;
+    }
     XmlData::addTypeXml(newName);
     XmlData::lSoftType.append(newName);
     m_pToolBox->addTypeList(newName);
+    QString path = QString("./%1").arg(newName);
+    XmlData::createFolder(path);
 }
 
 void QTools::on_btn_removeType_clicked()
 {
+    int n = m_pToolBox->count();
+    if (n < 2)
+    {
+        qDebug() << "无法删除最后一个分类";
+        return;
+    }
+    QString path = QString("./%1").arg(m_typeName);
+    delDir(path);
     XmlData::removeTypeXml(m_typeName);
     XmlData::lSoftType.removeAt(m_typeIndex);
-    m_pToolBox->removeTyleList(m_typeIndex);
+    m_pToolBox->removeItem(m_typeIndex);
+    m_pToolBox->m_pListWidget.removeAt(m_typeIndex);
 }
 
 void QTools::on_btn_min_clicked()

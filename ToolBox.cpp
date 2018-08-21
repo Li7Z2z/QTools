@@ -8,7 +8,7 @@ ToolBox::ToolBox(QWidget *parent) : QToolBox(parent)
 
 ToolBox::~ToolBox()
 {
-    delete m_pListWidgeItem;
+    delete m_pListWidgetItem;
     qDeleteAll(m_pListWidget);
 }
 
@@ -27,16 +27,16 @@ void ToolBox::initToolBox()
         // 添加软件名称及设置图标
         for (int j = 0; j < XmlData::llSoftName.at(i).size(); j++)
         {
-            m_pListWidgeItem = new QListWidgetItem(m_pListWidget.at(i));
-            m_pListWidgeItem->setIcon(QIcon("./Icon/"+XmlData::llSoftIcon.at(i).at(j)));
-            m_pListWidgeItem->setText(XmlData::llSoftName.at(i).at(j));
-            m_pListWidget.at(i)->addItem(m_pListWidgeItem);
+            m_pListWidgetItem = new QListWidgetItem(m_pListWidget.at(i));
+            m_pListWidgetItem->setIcon(QIcon("./Icon/"+XmlData::llSoftIcon.at(i).at(j)));
+            m_pListWidgetItem->setText(XmlData::llSoftName.at(i).at(j));
+            m_pListWidget.at(i)->addItem(m_pListWidgetItem);
         }
         // toolBox里添加ListWidget
         addItem(m_pListWidget.at(i), XmlData::lSoftType.at(i));
         // QToolBox::tab居中
-        int padding = (width() - fontMetrics().width(XmlData::lSoftType.at(i))) / 2;
-        setStyleSheet(QString("QToolBox::tab {padding-left: %1px;}").arg(padding));
+//        int padding = (width() - fontMetrics().width(XmlData::lSoftType.at(i))) / 2;
+//        setStyleSheet(QString("QToolBox::tab {padding-left: %1px;}").arg(padding));
     }
 }
 
@@ -62,7 +62,7 @@ bool ToolBox::addSoftList(QString softName, QString softPath, QString softIcon)
     return true;
 }
 
-// 添加软件类型到列表中
+// 添加软件分类到列表中
 bool ToolBox::addTypeList(QString softType)
 {
     ListWidget *listWidget = new ListWidget(this);
@@ -70,10 +70,10 @@ bool ToolBox::addTypeList(QString softType)
     m_pListWidget.append(listWidget);
     int i = m_pListWidget.size()-1;
     // 列表中添加数据
-    m_pListWidgeItem = new QListWidgetItem(m_pListWidget.at(i));
-    m_pListWidgeItem->setIcon(QIcon("./Icon/add.png"));
-    m_pListWidgeItem->setText("添加");
-    m_pListWidget.at(i)->addItem(m_pListWidgeItem);
+    m_pListWidgetItem = new QListWidgetItem(m_pListWidget.at(i));
+    m_pListWidgetItem->setIcon(QIcon("./Icon/add.png"));
+    m_pListWidgetItem->setText("添加");
+    m_pListWidget.at(i)->addItem(m_pListWidgetItem);
     // 链表中添加数据
     QStringList name;
     QStringList path;
@@ -87,19 +87,6 @@ bool ToolBox::addTypeList(QString softType)
     // toolBox里添加ListWidget
     addItem(m_pListWidget.at(i), softType);
     return true;
-}
-
-// 列表中修改软件类型
-bool ToolBox::modifyTypeList(int index, QString newType)
-{
-    setItemText(index, newType);
-    return true;
-}
-
-// 删除软件类型
-void ToolBox::removeTyleList(int index)
-{
-    removeItem(index);
 }
 
 // 打开软件
@@ -122,9 +109,9 @@ void ToolBox::openSoft()
     pixmap.save(QString("./Icon/%1.png").arg(softName), "png");
     QFile::link(fileName, softPath);
     //QFile::copy(fileName, QString("./图像处理/%1.exe").arg(name));
-    if (XmlData::isExist(softName))
+    if (XmlData::isSoft(softName))
     {
-        qDebug() << "软件名存在";
+        qDebug() << "软件名不能重复";
     }
     else
     {
@@ -142,6 +129,11 @@ void ToolBox::on_itemClicked(QListWidgetItem* item)
     qDebug() << name;
     if (name == "添加")
     {
+        if (XmlData::llSoftName.at(currentIndex()).size() > 20)
+        {
+            qDebug() << "每个分类最多只能添加20个软件";
+            return;
+        }
         openSoft();
         return;
     }

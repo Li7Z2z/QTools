@@ -55,6 +55,8 @@ private:
     bool eventFilter(QObject *obj, QEvent *event);
     // 创建托盘操作菜单
     void createTrayMenu();
+    //删除文件夹
+    bool delDir(const QString &path);
     // 弹出输入框获取新软件名
     QString getNewName();
 

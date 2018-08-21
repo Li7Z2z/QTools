@@ -71,6 +71,9 @@
      <pointsize>9</pointsize>
     </font>
    </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
    <property name="placeholderText">
     <string>输入关键词搜索...</string>
    </property>
